@@ -1,6 +1,6 @@
 import App from "../App";
 import { render, fireEvent } from "@testing-library/react-native";
-import { DateFormat, Theme, testIDs, texts } from "../GlobalConstants";
+import { DateFormat, Theme, Units, testIDs, texts } from "../GlobalConstants";
 import { data_store } from "../Store";
 
 describe("settings page" , () => {
@@ -32,5 +32,18 @@ describe("settings page" , () => {
 
         fireEvent.press(ymd_button);
         expect(data_store.getState().preferences.date).toEqual(DateFormat.ymd);
+    })
+
+    it("should change units", async () => {
+        const app = render(<App/>);
+
+        const km_button = app.getByTestId(testIDs.units_select_km);
+        const mi_button = app.getByTestId(testIDs.units_select_mi);
+
+        fireEvent.press(km_button);
+        expect(data_store.getState().preferences.units).toBe(Units.km);
+
+        fireEvent.press(mi_button);
+        expect(data_store.getState().preferences.units).toBe(Units.mi);
     })
 })

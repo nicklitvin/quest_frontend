@@ -12,7 +12,8 @@ export default function PageSettings() {
     const use_dmy = () => dispatch(actions.preferences.use_dmy());
     const use_mdy = () => dispatch(actions.preferences.use_mdy());
     const use_ymd = () => dispatch(actions.preferences.use_ymd());
-    
+    const use_km = () => dispatch(actions.preferences.use_km());
+    const use_mi = () => dispatch(actions.preferences.use_mi());
 
     return(
         <View>
@@ -31,6 +32,13 @@ export default function PageSettings() {
             </Pressable>
             <Pressable testID={testIDs.date_select_ymd} onPress={use_ymd}>
                 <Text>{texts.date_ymd}</Text>
+            </Pressable>
+
+            <Pressable testID={testIDs.units_select_km} onPress={use_km}>
+                <Text>{texts.units_km}</Text>
+            </Pressable>
+            <Pressable testID={testIDs.units_select_mi} onPress={use_mi}>
+                <Text>{texts.units_mi}</Text>
             </Pressable>
         </View>
     )

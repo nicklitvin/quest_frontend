@@ -1,9 +1,10 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { DateFormat, Theme } from "./GlobalConstants";
+import { DateFormat, Theme, Units } from "./GlobalConstants";
 
 export type AppPreferences = {
     theme : Theme,
-    date: DateFormat
+    date: DateFormat,
+    units: Units
 }
 export type ServerData = {
     id: string
@@ -11,7 +12,8 @@ export type ServerData = {
 
 const initial_preferences : AppPreferences = {
     theme: Theme.Dark,
-    date: DateFormat.mdy
+    date: DateFormat.mdy,
+    units: Units.mi
 }
 const initial_server_data : ServerData = {
     id: "1"
@@ -31,21 +33,13 @@ const preferences = createSlice({
     name: "preferences",
     initialState: initial_preferences,
     reducers: {
-        use_light_theme(state) {
-            state.theme = Theme.Light
-        },
-        use_dark_theme(state) {
-            state.theme = Theme.Dark
-        },
-        use_dmy(state) {
-            state.date = DateFormat.dmy
-        },
-        use_mdy(state) {
-            state.date = DateFormat.mdy
-        },
-        use_ymd(state) {
-            state.date = DateFormat.ymd
-        }
+        use_light_theme(state) { state.theme = Theme.Light },
+        use_dark_theme(state) { state.theme = Theme.Dark },
+        use_dmy(state) { state.date = DateFormat.dmy },
+        use_mdy(state) { state.date = DateFormat.mdy },
+        use_ymd(state) { state.date = DateFormat.ymd },
+        use_mi(state) { state.units = Units.mi },
+        use_km(state) { state.units = Units.km }
     }
 })
 
