@@ -6,10 +6,8 @@ import { SafeAreaView } from 'react-native';
 
 export default function App() {
     return (
-        <SafeAreaView>
-            <Provider store={data_store}>
-                <PageSettings/>
-            </Provider>
-        </SafeAreaView>
+        <Provider store={data_store}>
+            <PageSettings/>
+        </Provider>
     )
 }

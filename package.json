@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@reduxjs/toolkit": "^1.9.7",
+    "@testing-library/react-native": "^12.3.0",
     "expo": "~49.0.13",
     "expo-status-bar": "~1.6.0",
     "immer": "^10.0.3",

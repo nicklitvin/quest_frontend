@@ -1,6 +1,6 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
+import { Theme } from "./GlobalConstants";
 
-export type Theme = "Dark" | "Light";
 export type AppPreferences = {
     theme : Theme
 }
