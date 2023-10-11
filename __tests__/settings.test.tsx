@@ -1,23 +1,36 @@
 import App from "../App";
 import { render, fireEvent } from "@testing-library/react-native";
-import { testIDs, texts } from "../GlobalConstants";
+import { DateFormat, Theme, testIDs, texts } from "../GlobalConstants";
 import { data_store } from "../Store";
 
 describe("settings page" , () => {
     it("should change theme", async () => {
         const app = render(<App/>)
 
-        const before_theme = data_store.getState().preferences.theme;
-        expect(before_theme == "Dark").toEqual(true);
+        const light_button = app.getByTestId(testIDs.theme_select_light);
+        const dark_button = app.getByTestId(testIDs.theme_select_dark);
 
-        const before_press_list = await app.findAllByText(texts.theme_light);
-        const select_light = await app.findByTestId(testIDs.theme_select_light);
-        fireEvent.press(select_light);
+        fireEvent.press(light_button);
+        expect(data_store.getState().preferences.theme).toEqual(Theme.Light);
 
-        const after_press_list = await app.findAllByText(texts.theme_light);
-        expect(after_press_list.length).toEqual(before_press_list.length + 1);
+        fireEvent.press(dark_button);
+        expect(data_store.getState().preferences.theme).toEqual(Theme.Dark);
+    })
 
-        const after_theme = data_store.getState().preferences.theme;
-        expect(after_theme == "Light").toEqual(true);
+    it("should change date", async () => {
+        const app = render(<App/>)
+
+        const dmy_button = app.getByTestId(testIDs.date_select_dmy);
+        const mdy_button = app.getByTestId(testIDs.date_select_mdy);
+        const ymd_button = app.getByTestId(testIDs.date_select_ymd);
+
+        fireEvent.press(dmy_button);
+        expect(data_store.getState().preferences.date).toEqual(DateFormat.dmy);
+
+        fireEvent.press(mdy_button);
+        expect(data_store.getState().preferences.date).toEqual(DateFormat.mdy);
+
+        fireEvent.press(ymd_button);
+        expect(data_store.getState().preferences.date).toEqual(DateFormat.ymd);
     })
 })
