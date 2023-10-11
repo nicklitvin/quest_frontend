@@ -1,13 +1,16 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { DateFormat, Theme, Units } from "./GlobalConstants";
+import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
 
 export type AppPreferences = {
     theme : Theme,
     date: DateFormat,
     units: Units
 }
-export type ServerData = {
-    id: string
+export type AppState = {
+    view_tutorial: boolean,
+    logged_in: boolean,
+    show_update: boolean,
+    coordinates: Coordinates,
 }
 
 const initial_preferences : AppPreferences = {
@@ -15,17 +18,20 @@ const initial_preferences : AppPreferences = {
     date: DateFormat.mdy,
     units: Units.mi
 }
-const initial_server_data : ServerData = {
-    id: "1"
+const initial_app_state : AppState = {
+    view_tutorial: true,
+    logged_in: false,
+    show_update: false,
+    coordinates: {latitude: 0, longitude: 0}
 }
 
-const server_data = createSlice({
+const app_state = createSlice({
     name: "server_data",
-    initialState: initial_server_data,
+    initialState: initial_app_state,
     reducers: {
-        change(state) {
-            state.id = "2"
-        }
+        show_tutorial(state) { state.view_tutorial = true },
+        hide_tutorial(state) { state.view_tutorial = false },
+        logout(state) { state.logged_in = false },
     }
 })
 
@@ -45,7 +51,7 @@ const preferences = createSlice({
 
 const rootReducer = combineReducers({
     preferences: preferences.reducer,
-    server_data: server_data.reducer
+    app_state: app_state.reducer
 })
 
 export const data_store = configureStore({
@@ -54,7 +60,7 @@ export const data_store = configureStore({
 
 export const actions = {
     preferences: preferences.actions,
-    server_data: server_data.actions
+    app_state: app_state.actions
 }
 
 export type StoreState = ReturnType<typeof data_store.getState>

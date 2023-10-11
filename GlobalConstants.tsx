@@ -6,7 +6,8 @@ export const testIDs = {
     date_select_mdy: "mdy",
     date_select_ymd: "ymd",
     units_select_km: "km",
-    units_select_mi: "mi"
+    units_select_mi: "mi",
+    logout: "logout"
 }
 
 export enum Theme {
@@ -23,6 +24,11 @@ export enum DateFormat {
 export enum Units {
     km = "Kilometers (km)",
     mi = "Miles (mi)"
+}
+
+export type Coordinates = {
+    latitude: number,
+    longitude: number
 }
 
 export const texts = {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateFormat, testIDs, texts } from "../GlobalConstants";
 
 export default function PageSettings() {
-    const curr_theme = useSelector( (state : StoreState) => state.preferences.theme);
+    // const curr_theme = useSelector( (state : StoreState) => state.preferences.theme);
 
     const dispatch = useDispatch();
     const use_light_theme = () => dispatch(actions.preferences.use_light_theme())
@@ -14,6 +14,7 @@ export default function PageSettings() {
     const use_ymd = () => dispatch(actions.preferences.use_ymd());
     const use_km = () => dispatch(actions.preferences.use_km());
     const use_mi = () => dispatch(actions.preferences.use_mi());
+    const logout = () => dispatch(actions.app_state.logout());
 
     return(
         <View>
@@ -40,6 +41,11 @@ export default function PageSettings() {
             <Pressable testID={testIDs.units_select_mi} onPress={use_mi}>
                 <Text>{texts.units_mi}</Text>
             </Pressable>
+
+            <Pressable testID={testIDs.logout} onPress={logout}>
+                <Text>Logout</Text>
+            </Pressable>
+
         </View>
     )
 }
