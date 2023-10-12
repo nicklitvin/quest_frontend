@@ -1,6 +1,6 @@
 import App from "../App";
 import { render, fireEvent } from "@testing-library/react-native";
-import { DateFormat, Theme, Units, testIDs, texts, urls } from "../GlobalConstants";
+import { DateFormat, Theme, Units, testIDs } from "../GlobalConstants";
 import { data_store } from "../Store";
 import { act } from "react-test-renderer";
 import { get_all_response, test_response } from "../mocks/handlers";
@@ -81,5 +81,21 @@ describe("settings page" , () => {
 
         const result = await app.findAllByText(JSON.stringify(get_all_response));
         expect(result.length).toEqual(1);
+    })
+
+    it("should save data in store correctly", async () => {
+        const app = render(<App/>);
+        await act( async () => {
+            await new Promise( (res) => setTimeout(res,load_time) );
+            const get_all = await app.findByTestId(testIDs.get_all);
+            fireEvent.press(get_all);
+            await new Promise( (res) => setTimeout(res,load_time) );
+        })
+
+        const data = data_store.getState().server_data;
+        expect(data.key).toEqual(get_all_response.key);
+        expect(data.activity).toEqual(get_all_response.activity);
+        expect(data.events).toEqual(get_all_response.events);
+        expect(data.need_update).toEqual(get_all_response.need_update);
     })
 })

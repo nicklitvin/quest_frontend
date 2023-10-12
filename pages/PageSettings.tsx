@@ -16,10 +16,19 @@ export default function PageSettings() {
     const use_ymd = () => dispatch(actions.preferences.use_ymd());
     const use_km = () => dispatch(actions.preferences.use_km());
     const use_mi = () => dispatch(actions.preferences.use_mi());
-    const logout = () => dispatch(actions.app_state.logout());
+    const set_server_data = (data : Response_All) => dispatch(
+        actions.server_data.set_all(data)
+    )
 
     const {data, isFetching, isError, isSuccess } = queries.useGetTestQuery();
-    const [trigger, result, last_promise] = queries.useLazyGetAllQuery();
+    const [trigger, all_data, last_promise] = queries.useLazyGetAllQuery();
+
+    React.useEffect( () => {
+        if (all_data.isSuccess) {
+            const data = JSON.parse(JSON.stringify(all_data.data)) as Response_All;
+            set_server_data(data)
+        }
+    }, [all_data] )
 
     return(
         <View>
@@ -54,7 +63,7 @@ export default function PageSettings() {
                 latitude: app_state.coordinates.latitude,
                 longitude: app_state.coordinates.longitude
             })}>
-                <Text>{JSON.stringify(result.data)}</Text>
+                <Text>{JSON.stringify(all_data.data)}</Text>
             </Pressable>
         </View>
     )

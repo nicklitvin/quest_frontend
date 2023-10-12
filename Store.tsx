@@ -1,5 +1,5 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { Coordinates, DateFormat, Theme, Units, constants } from "./GlobalConstants";
+import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { urls } from "./GlobalConstants";
 
@@ -17,12 +17,12 @@ const api = createApi({
 })
 export const queries = api;
 
-export type AppPreferences = {
+export interface AppPreferences {
     theme : Theme,
     date: DateFormat,
     units: Units
 }
-export type AppState = {
+export interface AppState {
     view_tutorial: boolean,
     logged_in: boolean,
     show_update: boolean,
@@ -41,6 +41,13 @@ const initial_app_state : AppState = {
     show_update: false,
     coordinates: {latitude: 0, longitude: 0},
     key: ""
+}
+const initial_server_data : Response_All = {
+    key: "",
+    activity: [],
+    events: [],
+    locations: [],
+    need_update: false
 }
 
 const app_state = createSlice({
@@ -65,10 +72,26 @@ const preferences = createSlice({
         use_km(state) { state.units = Units.km }
     }
 })
+const server_data = createSlice({
+    name: "server_data",
+    initialState: initial_server_data,
+    reducers: {
+        set_key(state, action) { state.key = action.payload },
+        set_all(state, action : {type : string, payload : Response_All}) {
+            const payload = action.payload;
+            state.key = payload.key;
+            state.activity = payload.activity;
+            state.events = payload.events;
+            state.locations = payload.locations;
+            state.need_update = payload.need_update;
+        }
+    }
+})
 
 const rootReducer = combineReducers({
     preferences: preferences.reducer,
     app_state: app_state.reducer,
+    server_data: server_data.reducer,
     [api.reducerPath]: api.reducer
 })
 
@@ -81,7 +104,8 @@ export const data_store = configureStore({
 
 export const actions = {
     preferences: preferences.actions,
-    app_state: app_state.actions
+    app_state: app_state.actions,
+    server_data: server_data.actions
 }
 
 export type StoreState = ReturnType<typeof data_store.getState>
