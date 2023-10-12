@@ -8,11 +8,14 @@ const api = createApi({
     endpoints: builder => ({
         getTest: builder.query<any,void>({
             query: () => ({url: urls.test, method: "GET"})
+        }),
+        getAll: builder.query<JSON,Request_All>({
+            query: (arg) => ({url: urls.get_all, method: "POST", body: JSON.stringify(arg)})
         })
     }),
     keepUnusedDataFor: 0
 })
-export const { useGetTestQuery, useLazyGetTestQuery } = api;
+export const queries = api;
 
 export type AppPreferences = {
     theme : Theme,
@@ -24,6 +27,7 @@ export type AppState = {
     logged_in: boolean,
     show_update: boolean,
     coordinates: Coordinates,
+    key: string
 }
 
 const initial_preferences : AppPreferences = {
@@ -35,7 +39,8 @@ const initial_app_state : AppState = {
     view_tutorial: true,
     logged_in: false,
     show_update: false,
-    coordinates: {latitude: 0, longitude: 0}
+    coordinates: {latitude: 0, longitude: 0},
+    key: ""
 }
 
 const app_state = createSlice({

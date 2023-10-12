@@ -1,10 +1,11 @@
 import { Pressable, Text, View } from "react-native";
-import { StoreState, actions, useGetTestQuery, useLazyGetTestQuery } from "../Store";
+import { StoreState, actions, queries} from "../Store";
 import { useDispatch, useSelector } from "react-redux";
 import { DateFormat, testIDs, texts } from "../GlobalConstants";
 import React from "react";
 
 export default function PageSettings() {
+    const app_state = useSelector( (state : StoreState) => state.app_state);
     // const curr_theme = useSelector( (state : StoreState) => state.preferences.theme);
 
     const dispatch = useDispatch();
@@ -17,7 +18,8 @@ export default function PageSettings() {
     const use_mi = () => dispatch(actions.preferences.use_mi());
     const logout = () => dispatch(actions.app_state.logout());
 
-    const {data, isFetching, isError, isSuccess } = useGetTestQuery();
+    const {data, isFetching, isError, isSuccess } = queries.useGetTestQuery();
+    const [trigger, result, last_promise] = queries.useLazyGetAllQuery();
 
     return(
         <View>
@@ -45,11 +47,15 @@ export default function PageSettings() {
                 <Text>{texts.units_mi}</Text>
             </Pressable>
 
-            <Pressable testID={testIDs.logout} onPress={logout}>
-                <Text>Logout</Text>
-            </Pressable>
-
             <Text testID={testIDs.test_text}>{data}</Text>
+
+            <Pressable testID={testIDs.get_all} onPress={() => trigger({
+                key: app_state.key,
+                latitude: app_state.coordinates.latitude,
+                longitude: app_state.coordinates.longitude
+            })}>
+                <Text>{JSON.stringify(result.data)}</Text>
+            </Pressable>
         </View>
     )
 }

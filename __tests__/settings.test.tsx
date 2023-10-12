@@ -3,7 +3,7 @@ import { render, fireEvent } from "@testing-library/react-native";
 import { DateFormat, Theme, Units, testIDs, texts, urls } from "../GlobalConstants";
 import { data_store } from "../Store";
 import { act } from "react-test-renderer";
-import { sample_data } from "../mocks/handlers";
+import { get_all_response, test_response } from "../mocks/handlers";
 
 describe("settings page" , () => {
     const load_time = 50;
@@ -60,13 +60,26 @@ describe("settings page" , () => {
         expect(data_store.getState().preferences.units).toBe(Units.mi);
     })
 
-    it("api call", async () => {
+    it("test api call", async () => {
         const app = render(<App/>);
         await act( async () => {
             await new Promise( (res) => setTimeout(res,load_time) );
         })
 
-        const result = await app.findAllByText(sample_data[urls.test]);
+        const result = await app.findAllByText(test_response);
+        expect(result.length).toEqual(1);
+    })
+
+    it("should get all data", async () => {
+        const app = render(<App/>);
+        await act( async () => {
+            await new Promise( (res) => setTimeout(res,load_time) );
+            const get_all = await app.findByTestId(testIDs.get_all);
+            fireEvent.press(get_all);
+            await new Promise( (res) => setTimeout(res,load_time) );
+        })
+
+        const result = await app.findAllByText(JSON.stringify(get_all_response));
         expect(result.length).toEqual(1);
     })
 })

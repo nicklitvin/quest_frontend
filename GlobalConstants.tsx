@@ -4,7 +4,8 @@ export const constants = {
 
 export const urls = {
     base: "http://example.com",
-    test: "/test"
+    test: "/test",
+    get_all: "/getAll"
 }
 
 export const testIDs = {
@@ -17,7 +18,8 @@ export const testIDs = {
     units_select_km: "km",
     units_select_mi: "mi",
     logout: "logout",
-    test_text: "test_text"
+    test_text: "test_text",
+    get_all: "get_all"
 }
 
 export enum Theme {
@@ -48,5 +50,6 @@ export const texts = {
     date_mdy: DateFormat.mdy,
     date_ymd: DateFormat.ymd,
     units_mi: Units.mi,
-    units_km: Units.km
+    units_km: Units.km,
+    get_all: "get_all"
 }
