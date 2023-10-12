@@ -1,3 +1,12 @@
+export const constants = {
+    version: "2.0.0"
+}
+
+export const urls = {
+    base: "http://example.com",
+    test: "/test"
+}
+
 export const testIDs = {
     theme_text: "theme_text",
     theme_select_light: "theme_light",
@@ -7,7 +16,8 @@ export const testIDs = {
     date_select_ymd: "ymd",
     units_select_km: "km",
     units_select_mi: "mi",
-    logout: "logout"
+    logout: "logout",
+    test_text: "test_text"
 }
 
 export enum Theme {

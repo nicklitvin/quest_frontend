@@ -1,5 +1,18 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
+import { Coordinates, DateFormat, Theme, Units, constants } from "./GlobalConstants";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { urls } from "./GlobalConstants";
+
+const api = createApi({
+    baseQuery: fetchBaseQuery({ baseUrl: urls.base}),
+    endpoints: builder => ({
+        getTest: builder.query<any,void>({
+            query: () => ({url: urls.test, method: "GET"})
+        })
+    }),
+    keepUnusedDataFor: 0
+})
+export const { useGetTestQuery, useLazyGetTestQuery } = api;
 
 export type AppPreferences = {
     theme : Theme,
@@ -34,7 +47,6 @@ const app_state = createSlice({
         logout(state) { state.logged_in = false },
     }
 })
-
 const preferences = createSlice({
     name: "preferences",
     initialState: initial_preferences,
@@ -51,11 +63,15 @@ const preferences = createSlice({
 
 const rootReducer = combineReducers({
     preferences: preferences.reducer,
-    app_state: app_state.reducer
+    app_state: app_state.reducer,
+    [api.reducerPath]: api.reducer
 })
 
 export const data_store = configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware : any) => 
+        getDefaultMiddleware().concat(api.middleware)
+    ,
 })
 
 export const actions = {

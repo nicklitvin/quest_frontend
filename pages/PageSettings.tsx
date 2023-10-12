@@ -1,7 +1,8 @@
 import { Pressable, Text, View } from "react-native";
-import { StoreState, actions } from "../Store";
+import { StoreState, actions, useGetTestQuery, useLazyGetTestQuery } from "../Store";
 import { useDispatch, useSelector } from "react-redux";
 import { DateFormat, testIDs, texts } from "../GlobalConstants";
+import React from "react";
 
 export default function PageSettings() {
     // const curr_theme = useSelector( (state : StoreState) => state.preferences.theme);
@@ -15,6 +16,8 @@ export default function PageSettings() {
     const use_km = () => dispatch(actions.preferences.use_km());
     const use_mi = () => dispatch(actions.preferences.use_mi());
     const logout = () => dispatch(actions.app_state.logout());
+
+    const {data, isFetching, isError, isSuccess } = useGetTestQuery();
 
     return(
         <View>
@@ -46,6 +49,7 @@ export default function PageSettings() {
                 <Text>Logout</Text>
             </Pressable>
 
+            <Text testID={testIDs.test_text}>{data}</Text>
         </View>
     )
 }
