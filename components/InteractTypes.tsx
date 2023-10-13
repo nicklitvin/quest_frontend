@@ -4,27 +4,35 @@ interface Request_All {
     longitude: number
 }
 
-interface Activity {
+interface Quest_Sight {
     title: string,
-    latitude: number,
-    longitude: number,
     distance: number,
-    radius: number,
+    id: string
+}
+
+interface Quest_Event {
+    title: string,
+    distance: number,
     id: string,
 
     start_time: string,
     end_time: string,
-    web_link: string,
+    web_link: string | null,
     event_id: string,
     is_happening: boolean,
+}
 
-    date: string
+interface Quest_Activity {
+    title: string,
+    distance: number,
+    date: string,
+    id: string
 }
 
 interface Response_All {
     key: string,
-    locations: Activity[],
-    events: Activity[],
-    activity: Activity[],
+    sights: Quest_Sight[],
+    events: Quest_Event[],
+    activity: Quest_Activity[],
     need_update: boolean
 }

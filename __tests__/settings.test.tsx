@@ -8,12 +8,17 @@ import { get_all_response, test_response } from "../mocks/handlers";
 describe("settings page" , () => {
     const load_time = 50;
 
-    it("should change theme", async () => {
-        const app = render(<App/>)
+    let app : ReturnType<typeof render>;
+
+    beforeEach( async () => {
+        app = render(<App/>);
+
         await act( async () => {
             await new Promise( (res) => setTimeout(res,load_time) );
         })
+    })
 
+    it("should change theme", async () => {
         const light_button = app.getByTestId(testIDs.theme_select_light);
         const dark_button = app.getByTestId(testIDs.theme_select_dark);
 
@@ -25,11 +30,6 @@ describe("settings page" , () => {
     })
 
     it("should change date", async () => {
-        const app = render(<App/>)
-        await act( async () => {
-            await new Promise( (res) => setTimeout(res,load_time) );
-        })
-
         const dmy_button = app.getByTestId(testIDs.date_select_dmy);
         const mdy_button = app.getByTestId(testIDs.date_select_mdy);
         const ymd_button = app.getByTestId(testIDs.date_select_ymd);
@@ -45,11 +45,6 @@ describe("settings page" , () => {
     })
 
     it("should change units", async () => {
-        const app = render(<App/>);
-        await act( async () => {
-            await new Promise( (res) => setTimeout(res,load_time) );
-        })
-
         const km_button = app.getByTestId(testIDs.units_select_km);
         const mi_button = app.getByTestId(testIDs.units_select_mi);
 
@@ -61,19 +56,12 @@ describe("settings page" , () => {
     })
 
     it("test api call", async () => {
-        const app = render(<App/>);
-        await act( async () => {
-            await new Promise( (res) => setTimeout(res,load_time) );
-        })
-
         const result = await app.findAllByText(test_response);
         expect(result.length).toEqual(1);
     })
 
     it("should get all data", async () => {
-        const app = render(<App/>);
         await act( async () => {
-            await new Promise( (res) => setTimeout(res,load_time) );
             const get_all = await app.findByTestId(testIDs.get_all);
             fireEvent.press(get_all);
             await new Promise( (res) => setTimeout(res,load_time) );
@@ -84,9 +72,7 @@ describe("settings page" , () => {
     })
 
     it("should save data in store correctly", async () => {
-        const app = render(<App/>);
         await act( async () => {
-            await new Promise( (res) => setTimeout(res,load_time) );
             const get_all = await app.findByTestId(testIDs.get_all);
             fireEvent.press(get_all);
             await new Promise( (res) => setTimeout(res,load_time) );
@@ -97,5 +83,20 @@ describe("settings page" , () => {
         expect(data.activity).toEqual(get_all_response.activity);
         expect(data.events).toEqual(get_all_response.events);
         expect(data.need_update).toEqual(get_all_response.need_update);
+    })
+
+    it("should show activity", async() => {
+        // const pre_data = await app.findAllByText(get_all_response.activity[0].title);
+        // console.log(pre_data.map( (x) => x.props))
+        // expect(pre_data.length).toEqual(0);  
+
+        // await act( async () => {
+        //     const get_all = await app.findByTestId(testIDs.get_all);
+        //     fireEvent.press(get_all);
+        //     await new Promise( (res) => setTimeout(res,load_time) );
+        // })
+
+        // const post_data = await app.findAllByText(get_all_response.activity[0].title);
+        // expect(post_data.length).toEqual(2);
     })
 })

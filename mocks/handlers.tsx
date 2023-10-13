@@ -4,9 +4,16 @@ import { urls } from "../GlobalConstants";
 export const test_response : string = "hello";
 export const get_all_response : Response_All = {
     key: "sample_key",
-    activity: [],
+    activity: [
+        {
+            title: "title1",
+            date: String(new Date().toLocaleString()),
+            distance: 10,
+            id: "activity_1"
+        }
+    ],
     events: [],
-    locations: [],
+    sights: [],
     need_update: false
 }
 

@@ -46,7 +46,7 @@ const initial_server_data : Response_All = {
     key: "",
     activity: [],
     events: [],
-    locations: [],
+    sights: [],
     need_update: false
 }
 
@@ -82,9 +82,10 @@ const server_data = createSlice({
             state.key = payload.key;
             state.activity = payload.activity;
             state.events = payload.events;
-            state.locations = payload.locations;
+            state.sights = payload.sights;
             state.need_update = payload.need_update;
-        }
+        },
+        delete_all(state) { state = initial_server_data}
     }
 })
 
@@ -99,7 +100,6 @@ export const data_store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware : any) => 
         getDefaultMiddleware().concat(api.middleware)
-    ,
 })
 
 export const actions = {

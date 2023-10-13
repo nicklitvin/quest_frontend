@@ -1,5 +1,7 @@
 export const constants = {
-    version: "2.0.0"
+    version: "2.0.0",
+    meter_to_km: 0.001,
+    meter_to_mi: 0.000621371
 }
 
 export const urls = {
@@ -51,5 +53,6 @@ export const texts = {
     date_ymd: DateFormat.ymd,
     units_mi: Units.mi,
     units_km: Units.km,
-    get_all: "get_all"
+    get_all: "get_all",
+    claim_text: "Claim Now"
 }

@@ -1,12 +1,14 @@
 import { Pressable, Text, View } from "react-native";
 import { StoreState, actions, queries} from "../Store";
 import { useDispatch, useSelector } from "react-redux";
-import { DateFormat, testIDs, texts } from "../GlobalConstants";
+import { testIDs, texts } from "../GlobalConstants";
 import React from "react";
+import { Button_Activity } from "../components/QuestButton";
 
 export default function PageSettings() {
     const app_state = useSelector( (state : StoreState) => state.app_state);
-    // const curr_theme = useSelector( (state : StoreState) => state.preferences.theme);
+    const data_state = useSelector( (state : StoreState) => state.server_data);
+    const preferences = useSelector( (state : StoreState) => state.preferences);
 
     const dispatch = useDispatch();
     const use_light_theme = () => dispatch(actions.preferences.use_light_theme())
@@ -65,6 +67,10 @@ export default function PageSettings() {
             })}>
                 <Text>{JSON.stringify(all_data.data)}</Text>
             </Pressable>
+
+            {data_state.activity.map( 
+                (activity) => Button_Activity(activity,preferences)
+            )}
         </View>
     )
 }
