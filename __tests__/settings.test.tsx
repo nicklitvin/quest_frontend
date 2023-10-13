@@ -1,9 +1,10 @@
 import App from "../App";
 import { render, fireEvent } from "@testing-library/react-native";
 import { DateFormat, Theme, Units, testIDs } from "../GlobalConstants";
-import { data_store } from "../Store";
+import { AppPreferences, StoreState, data_store, renderWithProviders } from "../Store";
 import { act } from "react-test-renderer";
 import { get_all_response, test_response } from "../mocks/handlers";
+import { AppState } from "react-native";
 
 describe("settings page" , () => {
     const load_time = 50;
@@ -85,18 +86,20 @@ describe("settings page" , () => {
         expect(data.need_update).toEqual(get_all_response.need_update);
     })
 
-    it("should show activity", async() => {
-        // const pre_data = await app.findAllByText(get_all_response.activity[0].title);
-        // console.log(pre_data.map( (x) => x.props))
-        // expect(pre_data.length).toEqual(0);  
-
-        // await act( async () => {
-        //     const get_all = await app.findByTestId(testIDs.get_all);
-        //     fireEvent.press(get_all);
-        //     await new Promise( (res) => setTimeout(res,load_time) );
-        // })
-
-        // const post_data = await app.findAllByText(get_all_response.activity[0].title);
-        // expect(post_data.length).toEqual(2);
+    it("setup custom store", async() => {
+        const initial_state = {
+            preferences : {
+                date: DateFormat.dmy,
+                theme: Theme.Light,
+                units: Units.km
+            }
+        }
+        const custom_app = renderWithProviders(<App/>, {
+            preloadedState: initial_state
+        })
+        const app_state = custom_app.store.getState();
+        expect(app_state.preferences.date).toEqual(DateFormat.dmy);
+        expect(app_state.preferences.theme).toEqual(Theme.Light);
+        expect(app_state.preferences.units).toEqual(Units.km);
     })
 })

@@ -1,7 +1,10 @@
-import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
+import { PreloadedState, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
 import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { urls } from "./GlobalConstants";
+import React, { PropsWithChildren } from "react";
+import { RenderOptions, render } from "@testing-library/react-native";
+import { Provider } from "react-redux";
 
 const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: urls.base}),
@@ -110,5 +113,36 @@ export const actions = {
 
 export type StoreState = ReturnType<typeof data_store.getState>
 
+// Custom Store
+
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+    preloadedState?: PreloadedState<typeof rootReducer>
+    store?: ReturnType<typeof setup_custom_data_store>
+  }
+
+export const setup_custom_data_store = (
+    preloadedState: PreloadedState<typeof rootReducer>
+) => {
+    return configureStore({
+        reducer: rootReducer,
+        preloadedState,
+        middleware: (getDefaultMiddleware : any) => 
+            getDefaultMiddleware().concat(api.middleware)
+    })
+}
+
+export function renderWithProviders(
+    ui: React.ReactElement,
+    {
+      preloadedState = {},
+      store = setup_custom_data_store(preloadedState),
+      ...renderOptions
+    }: ExtendedRenderOptions = {}
+  ) {
+    function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
+      return <Provider store={store}>{children}</Provider>
+    }
+    return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
+  }
 
 
