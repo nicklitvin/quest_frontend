@@ -1,13 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import PageSettings from './pages/PageSettings';
 import { Provider } from 'react-redux';
-import { data_store } from './Store';
-import { SafeAreaView } from 'react-native';
+import { default_store } from './Store';
 
 export default function App() {
     return (
-        <Provider store={data_store}>
+        <Provider store={default_store}>
             <PageSettings/>
         </Provider>
+    )
+}
+
+export function App_Without_Store() {
+    return (
+        <PageSettings/>
     )
 }

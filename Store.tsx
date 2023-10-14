@@ -2,9 +2,6 @@ import { PreloadedState, combineReducers, configureStore, createSlice } from "@r
 import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { urls } from "./GlobalConstants";
-import React, { PropsWithChildren } from "react";
-import { RenderOptions, render } from "@testing-library/react-native";
-import { Provider } from "react-redux";
 
 const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: urls.base}),
@@ -99,7 +96,7 @@ const rootReducer = combineReducers({
     [api.reducerPath]: api.reducer
 })
 
-export const data_store = configureStore({
+export const default_store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware : any) => 
         getDefaultMiddleware().concat(api.middleware)
@@ -111,16 +108,9 @@ export const actions = {
     server_data: server_data.actions
 }
 
-export type StoreState = ReturnType<typeof data_store.getState>
+export type StoreState = ReturnType<typeof default_store.getState>
 
-// Custom Store
-
-interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-    preloadedState?: PreloadedState<typeof rootReducer>
-    store?: ReturnType<typeof setup_custom_data_store>
-  }
-
-export const setup_custom_data_store = (
+export const setup_custom_store = (
     preloadedState: PreloadedState<typeof rootReducer>
 ) => {
     return configureStore({
@@ -130,19 +120,3 @@ export const setup_custom_data_store = (
             getDefaultMiddleware().concat(api.middleware)
     })
 }
-
-export function renderWithProviders(
-    ui: React.ReactElement,
-    {
-      preloadedState = {},
-      store = setup_custom_data_store(preloadedState),
-      ...renderOptions
-    }: ExtendedRenderOptions = {}
-  ) {
-    function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
-      return <Provider store={store}>{children}</Provider>
-    }
-    return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
-  }
-
-

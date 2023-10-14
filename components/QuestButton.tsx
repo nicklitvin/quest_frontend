@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { AppPreferences, StoreState } from "../Store";
 import { DateFormat, Units, constants, texts } from "../GlobalConstants";
 import { getCalendars } from "expo-localization";
