@@ -15,17 +15,21 @@ export default function ActivityPage() {
     const open_settings = () => navigation.navigate(page_names.settings);
     
     const dispatch = useDispatch();
-
     const app_state = useSelector( (state : StoreState) => state.app_state);
     const data_state = useSelector( (state : StoreState) => state.server_data);
     const preferences = useSelector( (state : StoreState) => state.preferences);
 
+    const [trigger, all_data, last_promise] = queries.useLazyGetAllQuery();
+    const get_all_data = () => {
+        trigger({
+            key: app_state.key,
+            latitude: app_state.coordinates.latitude,
+            longitude: app_state.coordinates.longitude
+        })
+    }
     const set_server_data = (data : Response_All) => dispatch(
         actions.server_data.set_all(data)
     )
-
-    const {data, isFetching, isError, isSuccess } = queries.useGetTestQuery();
-    const [trigger, all_data, last_promise] = queries.useLazyGetAllQuery();
 
     React.useEffect( () => {
         if (all_data.isSuccess) {
@@ -42,16 +46,8 @@ export default function ActivityPage() {
                 <Pressable testID={testIDs.open_activity} onPress={open_activity}/>
                 <Pressable testID={testIDs.open_settings} onPress={open_settings}/>
             </View>
-            
-            <Text testID={testIDs.test_text}>{data}</Text>
 
-            <Pressable testID={testIDs.get_all} onPress={() => trigger({
-                key: app_state.key,
-                latitude: app_state.coordinates.latitude,
-                longitude: app_state.coordinates.longitude
-            })}>
-                <Text>{JSON.stringify(all_data.data)}</Text>
-            </Pressable>
+            <Pressable testID={testIDs.get_all} onPress={get_all_data}/>
 
             {data_state.activity.map( 
                 (activity) => Button_Activity(activity,preferences)
