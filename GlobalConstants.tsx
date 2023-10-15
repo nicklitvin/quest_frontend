@@ -4,6 +4,13 @@ export const constants = {
     meter_to_mi: 0.000621371
 }
 
+export const page_names = {
+    settings: "settings",
+    events: "events",
+    sights: "sights",
+    activity: "activity"
+}
+
 export const urls = {
     base: "http://example.com",
     test: "/test",
@@ -21,7 +28,11 @@ export const testIDs = {
     units_select_mi: "mi",
     logout: "logout",
     test_text: "test_text",
-    get_all: "get_all"
+    get_all: "get_all",
+    open_events: "open_events",
+    open_sights: "open_sights",
+    open_activity: "open_activity",
+    open_settings: "open_settings"
 }
 
 export enum Theme {

@@ -1,15 +1,16 @@
+import { useDispatch } from "react-redux";
+import { actions } from "../Store";
 import { Pressable, Text, View } from "react-native";
-import { StoreState, actions, queries} from "../Store";
-import { useDispatch, useSelector } from "react-redux";
-import { testIDs, texts } from "../GlobalConstants";
-import React from "react";
-import { Button_Activity } from "../components/QuestButton";
+import { page_names, testIDs, texts } from "../GlobalConstants";
+import { useNavigation } from "@react-navigation/native";
 
-export default function PageSettings() {
-    const app_state = useSelector( (state : StoreState) => state.app_state);
-    const data_state = useSelector( (state : StoreState) => state.server_data);
-    const preferences = useSelector( (state : StoreState) => state.preferences);
-
+export default function SettingsPage() {
+    const navigation = useNavigation<any>();
+    const open_events = () => navigation.navigate(page_names.events);
+    const open_sights = () => navigation.navigate(page_names.sights);
+    const open_activity = () => navigation.navigate(page_names.activity);
+    const open_settings = () => navigation.navigate(page_names.settings);
+    
     const dispatch = useDispatch();
     const use_light_theme = () => dispatch(actions.preferences.use_light_theme())
     const use_dark_theme = () => dispatch(actions.preferences.use_dark_theme());
@@ -18,22 +19,15 @@ export default function PageSettings() {
     const use_ymd = () => dispatch(actions.preferences.use_ymd());
     const use_km = () => dispatch(actions.preferences.use_km());
     const use_mi = () => dispatch(actions.preferences.use_mi());
-    const set_server_data = (data : Response_All) => dispatch(
-        actions.server_data.set_all(data)
-    )
 
-    const {data, isFetching, isError, isSuccess } = queries.useGetTestQuery();
-    const [trigger, all_data, last_promise] = queries.useLazyGetAllQuery();
-
-    React.useEffect( () => {
-        if (all_data.isSuccess) {
-            const data = JSON.parse(JSON.stringify(all_data.data)) as Response_All;
-            set_server_data(data)
-        }
-    }, [all_data] )
-
-    return(
-        <View>
+    return (
+        <>
+            <View>
+                <Pressable testID={testIDs.open_events} onPress={open_events}/>
+                <Pressable testID={testIDs.open_sights} onPress={open_sights}/>
+                <Pressable testID={testIDs.open_activity} onPress={open_activity}/>
+                <Pressable testID={testIDs.open_settings} onPress={open_settings}/>
+            </View>
             <Pressable testID={testIDs.theme_select_dark} onPress={use_dark_theme}>
                 <Text>{texts.theme_dark}</Text>
             </Pressable>
@@ -57,20 +51,6 @@ export default function PageSettings() {
             <Pressable testID={testIDs.units_select_mi} onPress={use_mi}>
                 <Text>{texts.units_mi}</Text>
             </Pressable>
-
-            <Text testID={testIDs.test_text}>{data}</Text>
-
-            <Pressable testID={testIDs.get_all} onPress={() => trigger({
-                key: app_state.key,
-                latitude: app_state.coordinates.latitude,
-                longitude: app_state.coordinates.longitude
-            })}>
-                <Text>{JSON.stringify(all_data.data)}</Text>
-            </Pressable>
-
-            {data_state.activity.map( 
-                (activity) => Button_Activity(activity,preferences)
-            )}
-        </View>
+        </>
     )
 }
