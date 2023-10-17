@@ -1,6 +1,6 @@
 import { AppPreferences } from "../Store";
 import { DateFormat, Units, constants } from "../GlobalConstants";
-import { Pressable, Text, View } from "react-native";
+import { Linking, Pressable, Text, View } from "react-native";
 
 export const extract_time = (date : string) => {
     const date_object = new Date(date);
@@ -95,9 +95,14 @@ export const make_distance_text = (distance : number, is_event : boolean, units:
     }
 }
 
+export const open_map_url = (place_id : string) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${place_id}&query_place_id=${place_id}`;
+    Linking.openURL(url);
+}
+
 export function Button_Activity(data : Quest_Activity, preferences : AppPreferences) {
     return (
-        <Pressable key={data.date}>
+        <Pressable key={data.date} onPress={() => open_map_url(data.id)}>
             <View>
                 <Text>{data.title}</Text>
                 <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>

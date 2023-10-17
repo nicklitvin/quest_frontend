@@ -1,5 +1,6 @@
 import { DateFormat, Units, constants } from "../GlobalConstants";
-import { convert_distance, extract_time, make_claim_text, make_distance_text, make_event_date_text } from "../components/QuestButton"
+import { convert_distance, extract_time, make_claim_text, make_distance_text, make_event_date_text, open_map_url } from "../components/QuestButton"
+import { opened_links } from "../mocks/jest.setup";
 
 describe("quest_button", () => {
     it("should convert distance" , async () => {
@@ -103,5 +104,11 @@ describe("quest_button", () => {
         const other_expect = `10/15 2:09pm - 11/13 1:09pm`
         expect(mdy_time).toEqual(other_expect);
         expect(ymd_time).toEqual(other_expect);
+    })
+
+    it("should open map url", () => {
+        expect(opened_links.length).toEqual(0);
+        open_map_url("place_id");
+        expect(opened_links.length).toEqual(1);
     })
 })

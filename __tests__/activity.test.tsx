@@ -3,6 +3,7 @@ import { testIDs } from "../GlobalConstants";
 import { make_custom_app, snooze } from "../mocks/funcs";
 import { get_all_response } from "../mocks/handlers";
 import { act } from "react-test-renderer";
+import { opened_links } from "../mocks/jest.setup";
 
 describe("activity", () => {
     it("should make api call", async () => {
@@ -39,8 +40,14 @@ describe("activity", () => {
             await snooze();
         })
 
-        expect( 
-            (await app.findAllByText(get_all_response.activity[0].title)).length)
-        .toEqual(1);
+        const activities = await app.findAllByText(get_all_response.activity[0].title);
+        expect(activities.length).toEqual(1);
+
+        expect(opened_links.length).toEqual(0);
+        await act( async () => {
+            fireEvent.press(activities[0]);
+            await snooze();
+        })
+        expect(opened_links.length).toEqual(1);
     })
 })

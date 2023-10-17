@@ -6,11 +6,11 @@ export const get_all_response : Response_All = {
     key: "sample_key",
     activity: [
         {
-            title: "title1",
+            title: "just_claimed",
             date: String(new Date().toLocaleString()),
             distance: 10,
             id: "activity_1"
-        }
+        }, 
     ],
     events: [],
     sights: [],
