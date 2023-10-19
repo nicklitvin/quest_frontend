@@ -100,6 +100,30 @@ export const open_map_url = (place_id : string) => {
     Linking.openURL(url);
 }
 
+export const is_time_claimable = (start: string, end: string) : boolean => {
+    const curr_time = new Date()
+    const start_time = new Date(start);
+    const end_time = new Date(end);
+
+    return curr_time > start_time && curr_time < end_time;
+}
+
+const is_valid_web_link = (url : string) => {
+    if (
+        (url.length > 6 && url.slice(0,7) == "http://") ||
+        (url.length > 7 && url.slice(0,8) == "https://")
+    ) return true;
+    return false;
+}
+
+export const open_event_url = (event_url : string | null, id : string) => {
+    if (event_url && is_valid_web_link(event_url)) {
+        Linking.openURL(event_url);
+    } else {
+        open_map_url(id);
+    }
+}
+
 export function Button_Activity(data : Quest_Activity, preferences : AppPreferences) {
     return (
         <Pressable key={data.date} onPress={() => open_map_url(data.id)}>
@@ -128,6 +152,29 @@ export function Button_Sight(data : Quest_Sight, preferences: AppPreferences, cl
                 <View>
                     <Text>{data.title}</Text>
                     <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>
+                </View>
+            </Pressable>
+        )
+    }
+}
+
+export function Button_Event(data : Quest_Event, preferences: AppPreferences, claim : Function) {
+    if (data.distance == 0 && is_time_claimable(data.start_time, data.end_time)) {
+        return (
+            <Pressable key={data.title} onPress={() => claim()}>
+                <View>
+                    <Text>{data.title}</Text>
+                    <Text>{texts.claim_text}</Text>
+                </View>
+            </Pressable>
+        )
+    } else {
+        return (
+            <Pressable key={data.title} onPress={() => open_event_url(data.web_link, data.id)}>
+                <View>
+                    <Text>{data.title}</Text>
+                    <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>
+                    <Text>{make_event_date_text(data.start_time,data.end_time,preferences.date)}</Text>
                 </View>
             </Pressable>
         )

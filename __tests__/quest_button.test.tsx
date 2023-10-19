@@ -1,6 +1,6 @@
 import { constants } from "../GlobalConstants";
 import { DateFormat, Units } from "../components/CustomTypes";
-import { convert_distance, extract_time, make_claim_text, make_distance_text, make_event_date_text, open_map_url } from "../components/QuestButton"
+import { convert_distance, extract_time, is_time_claimable, make_claim_text, make_distance_text, make_event_date_text, open_event_url, open_map_url } from "../components/QuestButton"
 import { opened_links } from "../mocks/jest.setup";
 
 describe("quest_button", () => {
@@ -111,5 +111,44 @@ describe("quest_button", () => {
         expect(opened_links.length).toEqual(0);
         open_map_url("place_id");
         expect(opened_links.length).toEqual(1);
+    })
+
+    it("should claim if time is good", () => {
+        const before_long = new Date(Date.now() - 10**8).toISOString();
+        const before_short = new Date(Date.now() - 10**6).toISOString();
+        const after_short = new Date(Date.now() + 10**6).toISOString();
+        const after_long =  new Date(Date.now() + 10**8).toISOString();
+
+        expect(is_time_claimable(before_long,before_short)).toEqual(false);
+        expect(is_time_claimable(after_short,after_long)).toEqual(false);
+        expect(is_time_claimable(before_short,after_short)).toEqual(true);
+    })
+
+    it("should open map if no event url", async () => {
+        const map_id = "map_id";
+        open_event_url(null,map_id);
+
+        expect(opened_links.length).toEqual(1);
+        expect(opened_links[0].includes(map_id)).toEqual(true);
+    })
+
+    it("should open map if bad event url", async () => {
+        const bad_url = "bad"
+        const map_id = "map_id";
+        open_event_url(bad_url,map_id);
+
+        expect(opened_links.length).toEqual(1);
+        expect(opened_links[0].includes(map_id)).toEqual(true);
+    })
+
+    it("should open url", async () => {
+        const url = "http://whatever";
+        const url1 = "https://";
+        const map_id = "map_id";
+        open_event_url(url,map_id);
+        open_event_url(url1,map_id);
+
+        expect(opened_links[0]).toEqual(url);
+        expect(opened_links[1]).toEqual(url1);
     })
 })
