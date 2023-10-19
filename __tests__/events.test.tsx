@@ -157,4 +157,17 @@ describe("events page", () => {
         expect(store.getState().server_data.events.length).toEqual(0);
         expect(store.getState().server_data.activity.length).toEqual(1);
     })
+
+    it("should redirect to event contribute", async () => {
+        const { app, store } = await make_custom_app();
+
+        const open_events = app.getByTestId(testIDs.open_events);
+        fireEvent.press(open_events);
+
+        const contribute = app.getByText(texts.add_event_title);
+        fireEvent.press(contribute);
+
+        expect(opened_links.length).toEqual(1);
+        expect(opened_links[0]).toEqual(globals.urls.contribute_event);
+    })
 })

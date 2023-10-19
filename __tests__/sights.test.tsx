@@ -4,6 +4,7 @@ import { testIDs } from "../GlobalConstants";
 import * as globals from "../GlobalConstants";
 import { InitialState } from "../Store";
 import { DateFormat, Theme, Units } from "../components/CustomTypes";
+import { opened_links } from "../mocks/jest.setup";
 
 describe("sights", () => {
     it("should show sights", async () => {
@@ -128,5 +129,18 @@ describe("sights", () => {
         expect(store.getState().server_data.activity.length).toEqual(0);
         expect(store.getState().server_data.sights.length).toEqual(1);
         expect(app.queryByText(server_data.sights[0].title) != null).toEqual(true);
+    })
+
+    it("should redirect to sight contribute", async () => {
+        const { app, store } = await make_custom_app();
+        
+        const open_sights = app.getByTestId(testIDs.open_sights);
+        fireEvent.press(open_sights);
+
+        const contribute = app.getByText(globals.texts.add_sight_title);
+        fireEvent.press(contribute);
+
+        expect(opened_links.length).toEqual(1);
+        expect(opened_links[0]).toEqual(globals.urls.contribute_sight);
     })
 })

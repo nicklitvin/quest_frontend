@@ -6,6 +6,7 @@ import { StoreState, actions } from "../Store";
 import { useDispatch } from "react-redux";
 import { Button_Sight } from "../components/QuestButton";
 import React from "react";
+import { ContributeButton } from "../components/ContributeButton";
 
 export default function SightsPage() {
     const navigation = useNavigation<any>();
@@ -53,6 +54,7 @@ export default function SightsPage() {
             <Pressable testID={testIDs.open_activity} onPress={open_activity}/>
             <Pressable testID={testIDs.open_settings} onPress={open_settings}/>
 
+            {ContributeButton(preferences,true)}
             {sights.map( (sight : Quest_Sight) => 
                 Button_Sight(sight, preferences, () => claim_sight(sight.place_id, sight.title)) 
             )}

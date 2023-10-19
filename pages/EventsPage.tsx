@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { StoreState, actions } from "../Store";
 import { Button_Event } from "../components/QuestButton";
 import { useDispatch } from "react-redux";
+import { ContributeButton } from "../components/ContributeButton";
 
 export default function EventsPage() {
     const navigation = useNavigation<any>();
@@ -54,6 +55,7 @@ export default function EventsPage() {
                 <Pressable testID={testIDs.open_settings} onPress={open_settings}/>
             </View>
 
+            {ContributeButton(preferences,false)}
             {events.map( (x) => Button_Event(
                 x,preferences,() => claim_event(x.place_id, x.event_id, x.title)
             ))}

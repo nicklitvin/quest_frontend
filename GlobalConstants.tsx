@@ -17,7 +17,9 @@ export const urls = {
     base: "http://example.com",
     test: "/test",
     get_all: "/getAll",
-    claim: "/claim"
+    claim: "/claim",
+    contribute_sight: "http://contributesights",
+    contribute_event: "http://contributeevents"
 }
 
 export const testIDs = {
@@ -47,7 +49,11 @@ export const texts = {
     units_mi: Units.mi,
     units_km: Units.km,
     get_all: "get_all",
-    claim_text: "Claim Now"
+    claim_text: "Claim Now",
+    add_sight_title: "Are We Missing A Cool Sight In Your Area?",
+    add_sight_subtitle: "Click to submit your suggestion",
+    add_event_title: "Are We Missing A Fun Event In Your Area",
+    add_event_subtitle: "Click to submit your suggestion"
 }
 
 export const make_quest_activity =  
