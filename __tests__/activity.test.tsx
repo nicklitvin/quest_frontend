@@ -14,7 +14,7 @@ describe("activity", () => {
                 {
                     date: "2023-10-15T21:09:59Z",
                     distance: 0,
-                    id: "id",
+                    place_id: "id",
                     title: "title"
                 }
             ]

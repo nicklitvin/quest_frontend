@@ -126,7 +126,7 @@ export const open_event_url = (event_url : string | null, id : string) => {
 
 export function Button_Activity(data : Quest_Activity, preferences : AppPreferences) {
     return (
-        <Pressable key={data.date} onPress={() => open_map_url(data.id)}>
+        <Pressable key={data.date} onPress={() => open_map_url(data.place_id)}>
             <View>
                 <Text>{data.title}</Text>
                 <Text>{make_distance_text(data.distance,true,preferences.units)}</Text>
@@ -148,7 +148,7 @@ export function Button_Sight(data : Quest_Sight, preferences: AppPreferences, cl
         )
     } else {
         return (
-            <Pressable key={data.title} onPress={() => open_map_url(data.id)}>
+            <Pressable key={data.title} onPress={() => open_map_url(data.place_id)}>
                 <View>
                     <Text>{data.title}</Text>
                     <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>
@@ -170,7 +170,7 @@ export function Button_Event(data : Quest_Event, preferences: AppPreferences, cl
         )
     } else {
         return (
-            <Pressable key={data.title} onPress={() => open_event_url(data.web_link, data.id)}>
+            <Pressable key={data.title} onPress={() => open_event_url(data.web_link, data.place_id)}>
                 <View>
                     <Text>{data.title}</Text>
                     <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>

@@ -15,7 +15,7 @@ describe("sights", () => {
             sights: [
                 {
                     distance: 0,
-                    id: "id",
+                    place_id: "id",
                     title: "title1"
                 }
             ]
@@ -43,7 +43,7 @@ describe("sights", () => {
             sights: [
                 {
                     distance: 0,
-                    id: "id",
+                    place_id: "id",
                     title: "title1"
                 }
             ]
@@ -98,7 +98,7 @@ describe("sights", () => {
             sights: [
                 {
                     distance: 1,
-                    id: "id",
+                    place_id: "id",
                     title: "title1"
                 }
             ]

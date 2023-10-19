@@ -7,26 +7,25 @@ interface Request_All {
 interface Quest_Sight {
     title: string,
     distance: number,
-    id: string
+    place_id: string
 }
 
 interface Quest_Event {
     title: string,
     distance: number,
-    id: string,
+    place_id: string,
 
     start_time: string,
     end_time: string,
     web_link: string | null,
     event_id: string,
-    is_happening: boolean,
 }
 
 interface Quest_Activity {
     title: string,
     distance: number,
     date: string,
-    id: string
+    place_id: string
 }
 
 interface Response_All {

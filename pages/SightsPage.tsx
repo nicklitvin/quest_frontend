@@ -31,7 +31,6 @@ export default function SightsPage() {
         
         try {
             const response = await make_post_request(url,null) as Response_Claim;
-
             if (response.need_update) {
                 return dispatch(actions.app_state.show_tutorial())
             }
@@ -39,7 +38,7 @@ export default function SightsPage() {
                 const activity : Quest_Activity = {
                     date: String(new Date().toLocaleString()),
                     distance: 0,
-                    id: place_id,
+                    place_id: place_id,
                     title: title
                 }
                 dispatch(actions.server_data.delete_sight(place_id));
@@ -60,7 +59,7 @@ export default function SightsPage() {
             <Pressable testID={testIDs.open_settings} onPress={open_settings}/>
 
             {sights.map( (sight : Quest_Sight) => 
-                Button_Sight(sight, preferences, () => claim_sight(sight.id, sight.title)) 
+                Button_Sight(sight, preferences, () => claim_sight(sight.place_id, sight.title)) 
             )}
         </View>
     )

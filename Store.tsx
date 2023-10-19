@@ -67,7 +67,7 @@ const server_data = createSlice({
             state.activity.unshift(action.payload);
         },
         delete_sight(state, action : {type: string, payload: string}) {
-            state.sights = state.sights.filter((sight) => sight.id !== action.payload)
+            state.sights = state.sights.filter((sight) => sight.place_id !== action.payload)
         }
     }
 })
