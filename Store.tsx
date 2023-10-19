@@ -1,5 +1,5 @@
 import { PreloadedState, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { Coordinates, DateFormat, Theme, Units } from "./GlobalConstants";
+import { Coordinates, DateFormat, Theme, Units } from "./components/CustomTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { urls } from "./GlobalConstants";
 
@@ -76,16 +76,12 @@ const server_data = createSlice({
     name: "server_data",
     initialState: initial_server_data,
     reducers: {
-        set_key(state, action) { state.key = action.payload },
-        set_all(state, action : {type : string, payload : Response_All}) {
-            const payload = action.payload;
-            state.key = payload.key;
-            state.activity = payload.activity;
-            state.events = payload.events;
-            state.sights = payload.sights;
-            state.need_update = payload.need_update;
+        add_activity(state, action : {type : string, payload : Quest_Activity}) {
+            state.activity.unshift(action.payload);
         },
-        delete_all(state) { state = initial_server_data}
+        delete_sight(state, action : {type: string, payload: string}) {
+            state.sights = state.sights.filter((sight) => sight.id !== action.payload)
+        }
     }
 })
 

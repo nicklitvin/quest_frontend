@@ -1,6 +1,7 @@
 import { AppPreferences } from "../Store";
-import { DateFormat, Units, constants } from "../GlobalConstants";
+import { constants, texts } from "../GlobalConstants";
 import { Linking, Pressable, Text, View } from "react-native";
+import { DateFormat, Units } from "./CustomTypes";
 
 export const extract_time = (date : string) => {
     const date_object = new Date(date);
@@ -110,4 +111,26 @@ export function Button_Activity(data : Quest_Activity, preferences : AppPreferen
             </View>
         </Pressable>
     )
+}
+
+export function Button_Sight(data : Quest_Sight, preferences: AppPreferences, claim : Function) {
+    if (data.distance == 0) {
+        return (
+            <Pressable key={data.title} onPress={() => claim()}>
+                <View>
+                    <Text>{data.title}</Text>
+                    <Text>{texts.claim_text}</Text>
+                </View>
+            </Pressable>
+        )
+    } else {
+        return (
+            <Pressable key={data.title} onPress={() => open_map_url(data.id)}>
+                <View>
+                    <Text>{data.title}</Text>
+                    <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>
+                </View>
+            </Pressable>
+        )
+    }
 }

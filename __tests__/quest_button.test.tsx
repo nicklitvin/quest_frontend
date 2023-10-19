@@ -1,4 +1,5 @@
-import { DateFormat, Units, constants } from "../GlobalConstants";
+import { constants } from "../GlobalConstants";
+import { DateFormat, Units } from "../components/CustomTypes";
 import { convert_distance, extract_time, make_claim_text, make_distance_text, make_event_date_text, open_map_url } from "../components/QuestButton"
 import { opened_links } from "../mocks/jest.setup";
 

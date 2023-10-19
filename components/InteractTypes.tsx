@@ -36,3 +36,17 @@ interface Response_All {
     activity: Quest_Activity[],
     need_update: boolean
 }
+
+interface Claim {
+    key: string,
+    latitude: number,
+    longitude: number,
+    id: string,
+    version: string
+}
+
+interface Response_Claim {
+    key: string,
+    valid: boolean,
+    need_update: boolean
+}

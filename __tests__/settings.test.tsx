@@ -1,16 +1,19 @@
 import { fireEvent } from "@testing-library/react-native";
-import { DateFormat, Theme, Units, testIDs } from "../GlobalConstants";
+import { testIDs } from "../GlobalConstants";
 import { make_custom_app } from "../mocks/funcs";
+import { DateFormat, Theme, Units } from "../components/CustomTypes";
+import { AppPreferences } from "../Store";
 
 describe("settings page" , () => {
 
     it("setup custom store", async() => {
+        const preferences : AppPreferences = {
+            date: DateFormat.dmy,
+            theme: Theme.Light,
+            units: Units.km
+        }
         const initial_state = {
-            preferences : {
-                date: DateFormat.dmy,
-                theme: Theme.Light,
-                units: Units.km
-            }
+            preferences : preferences
         }
         const { app, store } = await make_custom_app(initial_state);
 

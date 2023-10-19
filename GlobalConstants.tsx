@@ -1,3 +1,5 @@
+import { DateFormat, Theme, Units } from "./components/CustomTypes"
+
 export const constants = {
     version: "2.0.0",
     meter_to_km: 0.001,
@@ -14,7 +16,8 @@ export const page_names = {
 export const urls = {
     base: "http://example.com",
     test: "/test",
-    get_all: "/getAll"
+    get_all: "/getAll",
+    claim: "/claim"
 }
 
 export const testIDs = {
@@ -35,27 +38,6 @@ export const testIDs = {
     open_settings: "open_settings"
 }
 
-export enum Theme {
-    Dark = "Dark",
-    Light = "Light"
-}
-
-export enum DateFormat {
-    dmy = "dd/mm/yyyy",
-    mdy = "mm/dd/yyyy",
-    ymd = "yyyy/mm/dd"
-}
-
-export enum Units {
-    km = "Kilometers (km)",
-    mi = "Miles (mi)"
-}
-
-export type Coordinates = {
-    latitude: number,
-    longitude: number
-}
-
 export const texts = {
     theme_light: Theme.Light,
     theme_dark: Theme.Dark,
@@ -66,4 +48,19 @@ export const texts = {
     units_km: Units.km,
     get_all: "get_all",
     claim_text: "Claim Now"
+}
+
+export const make_post_request = async (url : string, content : any) => {
+    const request : RequestInit = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(content)
+    }
+    try {
+        const response = await fetch(url, request);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.log(err)
+    }
 }
