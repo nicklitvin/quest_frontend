@@ -1,8 +1,8 @@
 import { fireEvent } from "@testing-library/react-native";
 import { testIDs } from "../GlobalConstants";
 import { make_custom_app } from "../mocks/funcs";
-import { DateFormat, Theme, Units } from "../components/CustomTypes";
-import { AppPreferences } from "../Store";
+import { AppPreferences, DateFormat, Theme, Units } from "../components/CustomTypes";
+import { InitialState } from "../Store";
 
 describe("settings page" , () => {
 
@@ -12,7 +12,7 @@ describe("settings page" , () => {
             theme: Theme.Light,
             units: Units.km
         }
-        const initial_state = {
+        const initial_state : InitialState = {
             preferences : preferences
         }
         const { app, store } = await make_custom_app(initial_state);
@@ -24,16 +24,18 @@ describe("settings page" , () => {
     })
 
     it("should change theme", async () => {
-        const initial_state = {
-            preferences : {
-                theme: Theme.Light,
+        const initial_theme : Theme = Theme.Light;
+
+        const initial_state : InitialState = {
+            preferences: {
+                theme: initial_theme,
+                date: DateFormat.dmy,
+                units: Units.mi
             }
         }
         const { app, store } = await make_custom_app(initial_state);
 
-        expect(store.getState().preferences.theme).toEqual(
-            initial_state.preferences.theme
-        );
+        expect(store.getState().preferences.theme).toEqual(initial_theme);
 
         const settings_button = app.getByTestId(testIDs.open_settings);
         fireEvent.press(settings_button);
@@ -49,9 +51,11 @@ describe("settings page" , () => {
     })
 
     it("should change date", async () => {
-        const initial_state = {
+        const initial_state : InitialState = {
             preferences : {
-                date: DateFormat.ymd
+                date: DateFormat.ymd,
+                theme: Theme.Light,
+                units: Units.mi
             }
         }
         const { app, store } = await make_custom_app(initial_state);
@@ -74,9 +78,11 @@ describe("settings page" , () => {
     })
 
     it("should change units", async () => {
-        const initial_state = {
+        const initial_state : InitialState = {
             preferences : {
-                units: Units.mi
+                units: Units.mi,
+                date: DateFormat.dmy,
+                theme: Theme.Light
             }
         }
         const { app, store } = await make_custom_app(initial_state);

@@ -1,7 +1,6 @@
-import { AppPreferences } from "../Store";
 import { constants, texts } from "../GlobalConstants";
 import { Linking, Pressable, Text, View } from "react-native";
-import { DateFormat, Units } from "./CustomTypes";
+import { AppPreferences, DateFormat, Units } from "./CustomTypes";
 
 export const extract_time = (date : string) => {
     const date_object = new Date(date);
@@ -84,10 +83,10 @@ export const convert_distance = (meters : number, units : Units) => {
         meters * constants.meter_to_mi
 }
 
-export const make_distance_text = (distance : number, is_event : boolean, units: Units) => {
+export const make_distance_text = (distance : number, zero_allowed : boolean, units: Units) => {
     let val = Number(distance.toFixed(1));
 
-    if (val == 0 && !is_event) val = 0.1;
+    if (val == 0 && !zero_allowed) val = 0.1;
 
     if (units == Units.km) {
         return `${val}km.`
@@ -106,7 +105,7 @@ export function Button_Activity(data : Quest_Activity, preferences : AppPreferen
         <Pressable key={data.date} onPress={() => open_map_url(data.id)}>
             <View>
                 <Text>{data.title}</Text>
-                <Text>{make_distance_text(data.distance,false,preferences.units)}</Text>
+                <Text>{make_distance_text(data.distance,true,preferences.units)}</Text>
                 <Text>{make_claim_text(data.date, preferences.date)}</Text>
             </View>
         </Pressable>

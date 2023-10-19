@@ -28,11 +28,11 @@ describe("quest_button", () => {
     it("should change 0 distance", async () => {
         const distance = 0;
 
-        const event_km = make_distance_text(distance,true,Units.km);
-        expect(event_km).toEqual(`0km.`);
+        const zero_allowed = make_distance_text(distance,true,Units.km);
+        expect(zero_allowed).toEqual(`0km.`);
 
-        const not_event_km = make_distance_text(distance,true,Units.km);
-        expect(not_event_km == `0km`).toEqual(false);
+        const not_allowed = make_distance_text(distance,false,Units.km);
+        expect(not_allowed == `0km.`).toEqual(false);
     })
 
     it("should round distance", async () => {

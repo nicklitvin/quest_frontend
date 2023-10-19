@@ -1,5 +1,5 @@
 import { PreloadedState, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
-import { Coordinates, DateFormat, Theme, Units } from "./components/CustomTypes";
+import { AppPreferences, AppState, Coordinates, DateFormat, Theme, Units } from "./components/CustomTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { urls } from "./GlobalConstants";
 
@@ -16,19 +16,6 @@ const api = createApi({
     keepUnusedDataFor: 0
 })
 export const queries = api;
-
-export interface AppPreferences {
-    theme : Theme,
-    date: DateFormat,
-    units: Units
-}
-export interface AppState {
-    view_tutorial: boolean,
-    logged_in: boolean,
-    show_update: boolean,
-    coordinates: Coordinates,
-    key: string
-}
 
 const initial_preferences : AppPreferences = {
     theme: Theme.Dark,
@@ -84,6 +71,12 @@ const server_data = createSlice({
         }
     }
 })
+
+export interface InitialState {
+    preferences?: AppPreferences,
+    app_state?: AppState,
+    server_data?: Response_All,
+}
 
 const rootReducer = combineReducers({
     preferences: preferences.reducer,
