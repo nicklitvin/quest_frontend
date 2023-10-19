@@ -68,6 +68,11 @@ const server_data = createSlice({
         },
         delete_sight(state, action : {type: string, payload: string}) {
             state.sights = state.sights.filter((sight) => sight.place_id !== action.payload)
+        },
+        delete_event(state, action : {type: string, payload: string}) {
+            state.events = state.events.filter(
+                (quest_event) => quest_event.event_id != action.payload
+            );
         }
     }
 })

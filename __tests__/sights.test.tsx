@@ -71,7 +71,7 @@ describe("sights", () => {
         }
         mocker.mockResolvedValue(resolved);
 
-        const claimable_sight = app.getByText(server_data.sights[0].title);
+        const claimable_sight = app.getByText(globals.texts.claim_text);
         fireEvent.press(claimable_sight);
         await snooze();
 

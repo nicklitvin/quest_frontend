@@ -30,7 +30,7 @@ export default function SightsPage() {
         const url = urls.base + urls.claim;
         
         try {
-            const response = await make_post_request(url,null) as Response_Claim;
+            const response = await make_post_request(url,my_claim) as Response_Claim;
             if (response.need_update) {
                 return dispatch(actions.app_state.show_tutorial())
             }
