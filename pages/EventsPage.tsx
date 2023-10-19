@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, View } from "react-native";
-import { constants, make_post_request, page_names, testIDs, urls } from "../GlobalConstants";
+import { constants, make_post_request, make_quest_activity, page_names, testIDs, urls } from "../GlobalConstants";
 import { useSelector } from "react-redux";
 import { StoreState, actions } from "../Store";
 import { Button_Event } from "../components/QuestButton";
@@ -34,12 +34,7 @@ export default function EventsPage() {
                 return dispatch(actions.app_state.show_tutorial())
             }
             if (response.valid) {
-                const activity : Quest_Activity = {
-                    date: String(new Date().toLocaleString()),
-                    distance: 0,
-                    place_id: place_id,
-                    title: title
-                }
+                const activity = make_quest_activity(title, 0, place_id);
                 dispatch(actions.server_data.delete_event(event_id));
                 dispatch(actions.server_data.add_activity(activity));
             } else {

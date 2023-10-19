@@ -4,6 +4,7 @@ import { make_custom_app, snooze } from "../mocks/funcs";
 import { InitialState } from "../Store";
 import { DateFormat, Theme, Units } from "../components/CustomTypes";
 import * as globals from "../GlobalConstants";
+import { opened_links } from "../mocks/jest.setup";
 
 describe("events page", () => {
     it("should show events", async () => {
@@ -101,6 +102,8 @@ describe("events page", () => {
 
         expect(store.getState().server_data.events.length).toEqual(1);
         expect(store.getState().server_data.activity.length).toEqual(0);
+
+        expect(opened_links.length).toEqual(1);
     })
 
     it("shoud claim event", async () => {

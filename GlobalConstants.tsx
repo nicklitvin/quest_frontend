@@ -50,6 +50,17 @@ export const texts = {
     claim_text: "Claim Now"
 }
 
+export const make_quest_activity =  
+    (title : string, distance : number, place_id : string) : Quest_Activity => 
+    {
+        const activity : Quest_Activity = {
+            date: new Date().toISOString(),
+            distance: distance,
+            place_id: place_id,
+            title: title
+        }
+        return activity;
+    }
 export const make_post_request = async (url : string, content : any) => {
     const request : RequestInit = {
         method: "POST",
